@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # shellcheck disable=SC2034
+# shellcheck disable=SC1090
 
 declare -i TRUE=0
 declare -i FALSE=1
@@ -49,18 +50,16 @@ function git_check_staged_changes() {
 function git_prompt() {
     if [[ -d .git ]]
     then
-        result="[git"
+        result="git"
 
         if git_check_untracked_changes
         then
-            result+=":untracked"
+            result+="-untracked"
         fi
         if git_check_staged_changes
         then
-            result+=":staged"
+            result+="-staged"
         fi
-
-        result+="]"
     else
         result=
     fi
@@ -77,9 +76,9 @@ function prompt_setup() {
     
     if [[ "$color_prompt" -eq "$TRUE" ]]
     then
-        PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\] \[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
+        PS1='\[\e[1;36m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]:\[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
     else
-        PS1='\u@\h:\w\ $(git_prompt)\n\$ '
+        PS1='\u@\h:\w\:$(git_prompt)\n\$ '
     fi
 }
 
