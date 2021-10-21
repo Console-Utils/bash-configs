@@ -6,7 +6,7 @@
 declare -i TRUE=0
 declare -i FALSE=1
 
-function setup_history() {
+function history_setup() {
     shopt -s histappend
 
     HISTCONTROL=ignoreboth
@@ -68,13 +68,13 @@ function git_prompt() {
 }
 
 function prompt_setup() {
-    case "$TERM" in
+    case $TERM in
         xterm-color|*-256color)
             declare -i color_prompt="$TRUE"
         ;;
     esac
     
-    if [[ "$color_prompt" -eq "$TRUE" ]]
+    if [[ $color_prompt -eq "$TRUE" ]]
     then
         PS1='\[\e[1;36m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]:\[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
     else
@@ -94,7 +94,7 @@ case $- in
     ;;
 esac
 
-setup_history
+history_setup
 glob_setup
 alias_setup
 prompt_setup
