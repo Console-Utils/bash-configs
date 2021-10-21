@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+declare -ir SUCCESS=0
+declare -ir WRONG_INPUT=1
+
+function git_repo_recreate() {
+  if [[ ! -d .git ]]
+  then
+    echo "Can't recreate .git repo from remote because '$PWD' doesn't contain .git folder." >&2
+    exit $WRONG_INPUT
+  fi
+
+  local remote="$(git config --get remote.origin.url)"
+  if [[ $remote == "" ]]
+  then
+    echo "Can't recreate .git repo from remote because '$PWD' repo hasn't 'origin' remote configured." >&2
+    exit $WRONG_INPUT
+  fi
+
+  rm -rf .git
+  rm -rf -- *
+  git clone "$remote"
+
+  exit $SUCCESS
+}
