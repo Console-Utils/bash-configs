@@ -21,7 +21,7 @@ function git_repo_recreate() {
 
   rm -rf .git
   rm -rf -- * .*
-  git clone "$remote"
+  git clone "$remote" .
 
   exit $SUCCESS
 }
