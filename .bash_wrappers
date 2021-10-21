@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2155
+
 declare -ir SUCCESS=0
 declare -ir WRONG_INPUT=1
 
