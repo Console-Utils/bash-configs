@@ -7,6 +7,9 @@ alias i="if test"
 alias w="while test"
 alias f="for"
 
-alias gi="git init"
-alias gc="git clone"
-alias gu="rm -rf .git"
+if command -v git &> /dev/null
+then
+  alias gi="git init"
+  alias gc="git clone"
+  alias gu="rm -rf .git"
+fi
