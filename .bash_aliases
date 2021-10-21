@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-alias e="echo"
-alias pf="printf"
+alias e="echo" # [E]cho
+alias pf="printf" # [P]rint[F]
 
-alias i="if test"
-alias w="while test"
-alias f="for"
+alias i="if test" # [I]f
+alias w="while test" # [W]hile
+alias f="for" # [F]or
 
 if command -v git &> /dev/null
 then
-  alias gi="git init"
-  alias gc="git clone"
-  alias gu="rm -rf .git"
+  alias gin="git init" # [G]it [IN]it
+  alias gcl="git clone" # [G]it [CL]lone
+  alias gun="rm -rf .git" # [G]it [UN]init
+
+  alias gsw="git switch" # [G]it [SW]itch
+  alias gfe="git fetch" # [G]it [FE]tch
+  alias gsy="git pull && git push" # [G]it [SY]nc
 fi
 
-alias r=". ~/.bashrc"
+alias r=". ~/.bashrc" # [R]eload
