@@ -6,7 +6,7 @@
 declare -i TRUE=0
 declare -i FALSE=1
 
-function setup_history() {
+function history_setup() {
     shopt -s histappend
 
     HISTCONTROL=ignoreboth
@@ -94,7 +94,7 @@ case $- in
     ;;
 esac
 
-setup_history
+history_setup
 glob_setup
 alias_setup
 prompt_setup
