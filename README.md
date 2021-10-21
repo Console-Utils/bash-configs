@@ -1,5 +1,7 @@
 # Bash configs
 
+[![Continuous Integration](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml/badge.svg)](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml)
+
 ## Description
 
 My `~/.bash_aliases`, `~/.bashrc` configs.
