@@ -1,2 +1,3 @@
-# bash-aliases-config
-Bash aliases config.
+# Bash aliases
+
+My `~/.bash_aliases` config.
