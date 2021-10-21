@@ -2,9 +2,10 @@
 
 # shellcheck disable=SC2155
 
-declare -ir SUCCESS=0
-declare -ir WRONG_INPUT=1
+declare -i SUCCESS=0
+declare -i WRONG_INPUT=1
 
+# Recreates current repo by removing all files from current directory and cloning repo again.
 function git_repo_recreate() {
   if [[ ! -d .git ]]
   then
