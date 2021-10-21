@@ -13,3 +13,5 @@ then
   alias gc="git clone"
   alias gu="rm -rf .git"
 fi
+
+alias r=". ~/.bashrc"
