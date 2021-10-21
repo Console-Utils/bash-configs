@@ -54,14 +54,14 @@ function git_prompt() {
 
         if git_check_untracked_changes
         then
-            result+="-untracked"
+            result+="〘❌untracked〙"
         fi
         if git_check_staged_changes
         then
-            result+="-staged"
+            result+="〘✅staged〙"
         fi
     else
-        result=
+        result="〘🔥no .git folder〙"
     fi
 
     echo "$result"
@@ -76,7 +76,7 @@ function prompt_setup() {
     
     if [[ $color_prompt -eq "$TRUE" ]]
     then
-        PS1='\[\e[1;36m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]:\[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
+        PS1='🌿 \[\e[1;36m\]\u@\h\[\e[0m\] ➡️  \[\e[1;34m\]\w\[\e[0m\] ➡️  \[\e[1;31m$(git_prompt)\e[0m\]🌿\n\$ '
     else
         PS1='\u@\h:\w\:$(git_prompt)\n\$ '
     fi
