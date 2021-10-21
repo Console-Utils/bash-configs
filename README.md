@@ -4,7 +4,7 @@
 
 ## Description
 
-My `~/.bash_aliases`, `~/.bashrc` configs.
+My `~/.bash_aliases`, `~/.bash_wrappers`, `~/.bashrc` configs.
 
 ## Usage
 
