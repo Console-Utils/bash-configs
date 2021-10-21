@@ -21,10 +21,11 @@ function glob_setup() {
 function alias_setup() {
     if [[ -f ~/.bash_aliases ]]
     then
-        . .bash_aliases
+        . ~/.bash_aliases
     fi
 
-    if ! shopt -oq posix; then
+    if ! shopt -oq posix
+    then
         if [[ -f /usr/share/bash-completion/bash_completion ]]
         then
             . /usr/share/bash-completion/bash_completion
@@ -33,6 +34,38 @@ function alias_setup() {
             . /etc/bash_completion
         fi
     fi
+}
+
+function git_check_untracked_changes() {
+    (( "$(git status --porcelain | sed -n '/??/p' | wc -l)" > 0))
+    return $?
+}
+
+function git_check_staged_changes() {
+    (( "$(git status --porcelain | sed -n '/A/p' | wc -l)" > 0))
+    return $?
+}
+
+function git_prompt() {
+    if [[ -d .git ]]
+    then
+        result="[git"
+
+        if git_check_untracked_changes
+        then
+            result+=":untracked"
+        fi
+        if git_check_staged_changes
+        then
+            result+=":staged"
+        fi
+
+        result+="]"
+    else
+        result=
+    fi
+
+    echo "$result"
 }
 
 function prompt_setup() {
@@ -44,9 +77,9 @@ function prompt_setup() {
     
     if [[ "$color_prompt" -eq "$TRUE" ]]
     then
-        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+        PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\] \[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
     else
-        PS1='\u@\h:\w\$ '
+        PS1='\u@\h:\w\ $(git_prompt)\n\$ '
     fi
 }
 
