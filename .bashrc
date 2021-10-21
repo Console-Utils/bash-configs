@@ -68,13 +68,13 @@ function git_prompt() {
 }
 
 function prompt_setup() {
-    case "$TERM" in
+    case $TERM in
         xterm-color|*-256color)
             declare -i color_prompt="$TRUE"
         ;;
     esac
     
-    if [[ "$color_prompt" -eq "$TRUE" ]]
+    if [[ $color_prompt -eq "$TRUE" ]]
     then
         PS1='\[\e[1;36m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]:\[\e[1;31m$(git_prompt)\e[0m\]\n\$ '
     else
