@@ -1,3 +1,3 @@
 # Bash aliases
 
-My `~/.bash_aliases` config.
+My `~/.bash_aliases`, `~/.bashrc` configs.
