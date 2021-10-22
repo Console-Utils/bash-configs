@@ -2,14 +2,14 @@
 
 # shellcheck disable=SC2155
 
-declare -i SUCCESS=0
-declare -i WRONG_INPUT=1
-
-declare bold='\e[1m'
-declare reset='\e[0m'
-
 # Recreates current repo by removing all files from current directory and cloning repo again.
 __git_repo_recreate() {
+  declare -i SUCCESS=0
+  declare -i WRONG_INPUT=1
+
+  declare bold='\e[1m'
+  declare reset='\e[0m'
+
   if [[ ! -d .git ]]
   then
     echo -e "❌ Can't recreate .git repo from remote because $bold'$PWD'$reset doesn't contain .git folder." >&2
