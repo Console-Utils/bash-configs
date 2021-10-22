@@ -14,7 +14,18 @@ esac
 declare -i TRUE=0
 declare -i FALSE=1
 
-function history_setup() {
+load_dotfiles() {
+    dotfiles=("$HOME/.bash_aliases"
+        "/usr/share/bash-completion/bash_completion"
+        "/etc/bash_completion")
+
+    for f in "${dotfiles[@]}"
+    do
+        [[ -r $f ]] && . "$f"
+    done
+}
+
+history_setup() {
     shopt -s histappend
 
     HISTCONTROL=ignoreboth
@@ -22,40 +33,22 @@ function history_setup() {
     HISTFILESIZE=2000
 }
 
-function glob_setup() {
+glob_setup() {
     shopt -s globstar
     shopt -s failglob
 }
 
-function alias_setup() {
-    if [[ -f ~/.bash_aliases ]]
-    then
-        . ~/.bash_aliases
-    fi
-
-    if ! shopt -oq posix
-    then
-        if [[ -f /usr/share/bash-completion/bash_completion ]]
-        then
-            . /usr/share/bash-completion/bash_completion
-        elif [[ -f /etc/bash_completion ]]
-        then
-            . /etc/bash_completion
-        fi
-    fi
-}
-
-function git_check_untracked_changes() {
+git_check_untracked_changes() {
     (( "$(git status --porcelain | sed -n '/??/p' | wc -l)" > 0))
     return $?
 }
 
-function git_check_staged_changes() {
+git_check_staged_changes() {
     (( "$(git status --porcelain | sed -n '/A/p' | wc -l)" > 0))
     return $?
 }
 
-function git_prompt() {
+git_prompt() {
     if [[ -d .git ]]
     then
         result="git"
@@ -75,7 +68,7 @@ function git_prompt() {
     echo "$result"
 }
 
-function prompt_setup() {
+prompt_setup() {
     case $TERM in
         xterm-color|*-256color)
             declare -i color_prompt="$TRUE"
@@ -90,12 +83,12 @@ function prompt_setup() {
     fi
 }
 
-function miscellaneous_setup() {
+miscellaneous_setup() {
     shopt -s checkwinsize
 }
 
+load_dotfiles
 history_setup
 glob_setup
-alias_setup
 prompt_setup
 miscellaneous_setup
