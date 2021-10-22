@@ -14,6 +14,9 @@ esac
 declare -i TRUE=0
 declare -i FALSE=1
 
+export MINE_PATH="$HOME/Documents/mine/"
+export WORK_PATH="$HOME/Documents/work/"
+
 __load_dotfiles() {
     dotfiles=("$HOME/.bash_aliases"
         "/usr/share/bash-completion/bash_completion"
@@ -94,6 +97,3 @@ __history_setup
 __glob_setup
 __prompt_setup
 __miscellaneous_setup
-
-export MINE_PATH="$HOME/Documents/mine/"
-export WORK_PATH="$HOME/Documents/work/"
