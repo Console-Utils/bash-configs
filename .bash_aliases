@@ -2,6 +2,7 @@
 
 # shellcheck disable=SC1090
 
+# General aliases
 alias e='echo' # [E]cho
 alias pf='printf' # [P]rint[F]
 
@@ -9,6 +10,13 @@ alias i='if test' # [I]f
 alias w='while test' # [W]hile
 alias f='for' # [F]or
 
+alias r='. ~/.bashrc' # [R]eload
+
+# cd aliases
+alias cmi='cd "$HOME/Documents/mine/"' # [C]d [MI]ne
+alias cwo='cd "$HOME/Documents/work/"' # [C]d [WO]rk
+
+# git aliases
 if command -v git &> /dev/null
 then
   alias gin='git init' # [G]it [IN]it
@@ -25,5 +33,3 @@ then
   alias gfe='git fetch' # [G]it [FE]tch
   alias gsy='git pull && git push' # [G]it [SY]nc
 fi
-
-alias r='. ~/.bashrc' # [R]eload
