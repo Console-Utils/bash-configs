@@ -8,7 +8,7 @@ My `~/.bash_aliases`, `~/.bash_wrappers`, `~/.bashrc` configs.
 
 ## Usage
 
-Update corresponding files in your home directoty.
+Modify corresponding files in your home directoty or use `update-configs.sh` (only tested on Linux Mint 20.2 Cinnamon) to download or update everything at once.
 
 ## Screenshots
 
