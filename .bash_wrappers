@@ -6,7 +6,7 @@ declare -i SUCCESS=0
 declare -i WRONG_INPUT=1
 
 # Recreates current repo by removing all files from current directory and cloning repo again.
-function git_repo_recreate() {
+__git_repo_recreate() {
   if [[ ! -d .git ]]
   then
     echo "Can't recreate .git repo from remote because '$PWD' doesn't contain .git folder." >&2
