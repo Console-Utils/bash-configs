@@ -39,7 +39,7 @@ repo_url="https://github.com/Console-Utils/bash-configs.git"
 tmp_folder_name="/tmp/$(date +'%m/%d/%Y')"
 
 echo "⌛Cloning started..."
-git clone "$repo_url" "$tmp_folder_name"
+git clone "$repo_url" "$tmp_folder_name" || exit
 for f in "$tmp_folder_name/."bash*
 do
   name="$(basename "$f")"
