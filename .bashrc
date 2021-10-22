@@ -35,6 +35,8 @@ __history_setup() {
 
 __glob_setup() {
     shopt -s globstar
+    shopt -s extglob
+    shopt -s dotglob
     shopt -s failglob
 }
 
