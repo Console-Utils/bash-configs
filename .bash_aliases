@@ -18,7 +18,7 @@ then
   if [[ -f ~/.bash_wrappers ]]
   then
     . ~/.bash_wrappers
-    alias gre='git_repo_recreate' # [G]it [RE]create
+    alias gre='__git_repo_recreate' # [G]it [RE]create
   fi
 
   alias gsw='git switch' # [G]it [SW]itch
