@@ -3,6 +3,14 @@
 # shellcheck disable=SC2034
 # shellcheck disable=SC1090
 
+case $- in
+    *i*)
+    ;;
+    *)
+        return
+    ;;
+esac
+
 declare -i TRUE=0
 declare -i FALSE=1
 
@@ -85,14 +93,6 @@ function prompt_setup() {
 function miscellaneous_setup() {
     shopt -s checkwinsize
 }
-
-case $- in
-    *i*)
-    ;;
-    *)
-        return
-    ;;
-esac
 
 history_setup
 glob_setup
