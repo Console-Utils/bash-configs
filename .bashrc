@@ -17,6 +17,8 @@ declare -i FALSE=1
 export MINE_PATH="$HOME/Documents/mine/"
 export WORK_PATH="$HOME/Documents/work/"
 
+export GLOBIGNORE=".bashrc*:.bash_aliases*:.bash_wrappers*"
+
 __load_dotfiles() {
     dotfiles=("$HOME/.bash_aliases"
         "/usr/share/bash-completion/bash_completion"
