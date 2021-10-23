@@ -49,18 +49,33 @@ __git_check_staged_changes() {
 __git_prompt() {
     if [[ -d .git ]]
     then
-        local result="git"
+        local result="git "
 
         local -i untracked_count
         local -i staged_count
+        local delimiter=" "
 
         untracked_count="$(__git_check_untracked_changes)"
         staged_count="$(__git_check_staged_changes)"
+        local -i status_not_empty="$FALSE"
+        local git_info=
         
-        (( untracked_count > 0 )) && result+="〘❌untracked:$untracked_count〙"
-        (( staged_count > 0 )) && result+="〘✅staged:$staged_count〙"
+        (( untracked_count > 0 )) && {
+            git_info+="❌untracked:$untracked_count"
+            status_not_empty="$TRUE"
+        }
+        (( staged_count > 0 )) && {
+            (( status_not_empty == TRUE )) && git_info+="$delimiter"
+            status_not_empty="$TRUE"
+            git_info+="✅staged:$staged_count"
+        }
+
+        (( status_not_empty == TRUE )) && {
+            git_info="[$git_info]"
+            result+="$git_info"
+        }
     else
-        result="〘🔥no .git folder〙"
+        result="[🔥no .git folder]"
     fi
 
     echo "$result"
