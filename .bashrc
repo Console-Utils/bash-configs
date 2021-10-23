@@ -20,7 +20,7 @@ export WORK_PATH="$HOME/Documents/work/"
 export GLOBIGNORE=".bashrc*:.bash_aliases*:.bash_wrappers*"
 
 __load_dotfiles() {
-    dotfiles=("$HOME/.bash_aliases"
+    local dotfiles=("$HOME/.bash_aliases"
         "/usr/share/bash-completion/bash_completion"
         "/etc/bash_completion")
 
@@ -58,16 +58,10 @@ __git_check_staged_changes() {
 __git_prompt() {
     if [[ -d .git ]]
     then
-        result="git"
+        local result="git"
 
-        if __git_check_untracked_changes
-        then
-            result+="〘❌untracked〙"
-        fi
-        if __git_check_staged_changes
-        then
-            result+="〘✅staged〙"
-        fi
+        __git_check_untracked_changes && result+="〘❌untracked〙"
+        __git_check_staged_changes && result+="〘✅staged〙"
     else
         result="〘🔥no .git folder〙"
     fi
@@ -78,7 +72,7 @@ __git_prompt() {
 __prompt_setup() {
     case $TERM in
         xterm-color|*-256color)
-            declare -i color_prompt="$TRUE"
+            local -i color_prompt="$TRUE"
         ;;
     esac
     
