@@ -7,19 +7,16 @@ __git_repo_recreate() {
   local -i SUCCESS=0
   local -i WRONG_INPUT=1
 
-  local bold='\e[1m'
-  local reset='\e[0m'
-
   if [[ ! -d .git ]]
   then
-    echo -e "❌ Can't recreate .git repo from remote because $bold'$PWD'$reset doesn't contain .git folder." >&2
+    echo -e "❌ Can't recreate .git repo from remote because $BOLD_FBLACK'$PWD'$RESET doesn't contain .git folder." >&2
     return $WRONG_INPUT
   fi
 
   local remote="$(git config --get remote.origin.url)"
   if [[ $remote == "" ]]
   then
-    echo -e "❌ Can't recreate .git repo from remote because $bold'$PWD'$reset repo hasn't $bold'origin'$reset remote configured." >&2
+    echo -e "❌ Can't recreate .git repo from remote because $BOLD_FBLACK'$PWD'$RESET repo hasn't $BOLD_FBLACK'origin'$RESET remote configured." >&2
     return $WRONG_INPUT
   fi
 
@@ -29,3 +26,10 @@ __git_repo_recreate() {
 
   return $SUCCESS
 }
+
+declare dotfiles=("$HOME/.bash_colors")
+
+for f in "${dotfiles[@]}"
+do
+    [[ -r $f ]] && . "$f"
+done
