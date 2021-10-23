@@ -19,17 +19,6 @@ export WORK_PATH="$HOME/Documents/work/"
 
 export GLOBIGNORE=".bashrc*:.bash_aliases*:.bash_wrappers*"
 
-__load_dotfiles() {
-    local dotfiles=("$HOME/.bash_aliases"
-        "/usr/share/bash-completion/bash_completion"
-        "/etc/bash_completion")
-
-    for f in "${dotfiles[@]}"
-    do
-        [[ -r $f ]] && . "$f"
-    done
-}
-
 __history_setup() {
     shopt -s histappend
 
@@ -78,7 +67,7 @@ __prompt_setup() {
     
     if [[ $color_prompt -eq "$TRUE" ]]
     then
-        PS1='🌿 \[\e[1;36m\]\u@\h\[\e[0m\] ➡️  \[\e[1;34m\]\w\[\e[0m\] ➡️  \[\e[1;31m$(__git_prompt)\e[0m\]🌿\n\$ '
+        PS1='🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]\w\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ '
     else
         PS1='\u@\h:\w\:$(__git_prompt)\n\$ '
     fi
@@ -88,7 +77,16 @@ __miscellaneous_setup() {
     shopt -s checkwinsize
 }
 
-__load_dotfiles
+declare dotfiles=("$HOME/.bash_aliases"
+    "$HOME/.bash_colors"
+    "/usr/share/bash-completion/bash_completion"
+    "/etc/bash_completion")
+
+for f in "${dotfiles[@]}"
+do
+    [[ -r $f ]] && . "$f"
+done
+
 __history_setup
 __glob_setup
 __prompt_setup

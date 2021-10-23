@@ -3,9 +3,6 @@
 declare -i SUCCESS=0
 declare -i WRONG_INPUT=1
 
-declare bold='\e[1m'
-declare reset='\e[0m'
-
 create_backup() {
   input="$1"
   directory="$2"
@@ -16,15 +13,22 @@ create_backup() {
   new_name="$directory/$input.$suffix"
 
   [[ ! -f $old_name ]] && {
-    echo -e "❌ No $bold'$input'$reset file found in the $bold'$directory'$reset directory." >&2
+    echo -e "❌ No $BOLD_FBLACK'$input'$RESET file found in the $BOLD_FBLACK'$directory'$RESET directory." >&2
     return "$WRONG_INPUT"
   }
   
   [[ -f $new_name ]] &&
-    echo -e "⚠️ $bold'$(basename "$new_name")'$reset backup file already exists in the $bold'$directory'$reset directory and will be overridden." >&2
+    echo -e "⚠️ $BOLD_FBLACK'$(basename "$new_name")'$RESET backup file already exists in the $BOLD_FBLACK'$directory'$RESET directory and will be overridden." >&2
 
   cp -fT "$old_name" "$new_name"
 }
+
+declare dotfiles=("$HOME/.bash_colors")
+
+for f in "${dotfiles[@]}"
+do
+    [[ -r $f ]] && . "$f"
+done
 
 dotfiles=(".bashrc"
   ".bash_aliases"
@@ -44,7 +48,7 @@ for f in "$tmp_folder_name/."bash*
 do
   name="$(basename "$f")"
   cp -f "$f" "$HOME/$name"
-  echo -e "✅$bold'$name'$reset file updated according to $bold'$repo_url'$reset repo."
+  echo -e "✅$BOLD_FBLACK'$name'$RESET file updated according to $BOLD_FBLACK'$repo_url'$RESET repo."
 done
 
 rm -rf "$tmp_folder_name"
