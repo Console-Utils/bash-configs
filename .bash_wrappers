@@ -4,11 +4,11 @@
 
 # Recreates current repo by removing all files from current directory and cloning repo again.
 __git_repo_recreate() {
-  declare -i SUCCESS=0
-  declare -i WRONG_INPUT=1
+  local -i SUCCESS=0
+  local -i WRONG_INPUT=1
 
-  declare bold='\e[1m'
-  declare reset='\e[0m'
+  local bold='\e[1m'
+  local reset='\e[0m'
 
   if [[ ! -d .git ]]
   then
