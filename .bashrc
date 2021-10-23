@@ -35,13 +35,15 @@ __glob_setup() {
 }
 
 __git_check_untracked_changes() {
-    (( "$(git status --porcelain | sed -n '/??/p' | wc -l)" > 0))
-    return $?
+    local -i count
+    count="$(git status --porcelain | sed -n '/??/p' | wc -l)"
+    echo "$count"
 }
 
 __git_check_staged_changes() {
-    (( "$(git status --porcelain | sed -n '/A/p' | wc -l)" > 0))
-    return $?
+    local -i count
+    count="$(git status --porcelain | sed -n '/A/p' | wc -l)"
+    echo "$count"
 }
 
 __git_prompt() {
@@ -49,8 +51,14 @@ __git_prompt() {
     then
         local result="git"
 
-        __git_check_untracked_changes && result+="〘❌untracked〙"
-        __git_check_staged_changes && result+="〘✅staged〙"
+        local -i untracked_count
+        local -i staged_count
+
+        untracked_count="$(__git_check_untracked_changes)"
+        staged_count="$(__git_check_staged_changes)"
+        
+        (( untracked_count > 0 )) && result+="〘❌untracked:$untracked_count〙"
+        (( staged_count > 0 )) && result+="〘✅staged:$staged_count〙"
     else
         result="〘🔥no .git folder〙"
     fi
