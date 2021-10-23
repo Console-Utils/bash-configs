@@ -30,6 +30,15 @@ do
     [[ -r $f ]] && . "$f"
 done
 
+dotfiles=(".bashrc"
+  ".bash_aliases"
+  ".bash_wrappers")
+
+for f in "${dotfiles[@]}"
+do
+  create_backup "$f" "$HOME" || exit
+done
+
 repo_url="https://github.com/Console-Utils/bash-configs.git"
 tmp_folder_name="/tmp/$(date +'%m/%d/%Y')"
 
