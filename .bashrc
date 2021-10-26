@@ -58,11 +58,10 @@ __git_prompt() {
         if [[ -z $branch ]]; then
             result+="❌ not on branch"
         else
-            [[ "$(git branch -r --contains "$branch")" == "" ]] && result+="⚠️ "
+            [[ "$(git branch -r --contains "origin/$branch")" == "" ]] && result+="⚠️ "
             result+="$branch"
         fi
 
-        result+=" "
         local commit_difference=($(git rev-list --left-right --count "origin/$branch...$branch" | tr '\t' '\n'))
         
         local -i commits_behind="${commit_difference[0]}"
@@ -76,7 +75,8 @@ __git_prompt() {
             commit_difference_info+="⬆️ $commits_ahead"
         }
 
-        result+="$commit_difference_info)"
+        [[ -n $commit_difference_info ]] && result+=" $commit_difference_info"
+        result+=")"
 
         local -i untracked_count
         local -i staged_count
