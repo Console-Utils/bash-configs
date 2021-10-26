@@ -97,7 +97,7 @@ __print_pipeline_statuses() {
 __simplify_pwd() {
     local directory="$1"
 
-    directory="$(echo "$directory" | sed "s|$HOME/Documents/mine|[mine]|; s|$HOME/Documents/work|[work]|; s|$HOME|~|")"
+    directory="$(echo "$directory" | sed "s|^$HOME/Documents/mine|\\\\\$MINE_PATH|; s|^$HOME/Documents/work|\\\\\$WORK_PATH|; s|$HOME|~|")"
     echo "$directory"
 }
 
