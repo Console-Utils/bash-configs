@@ -51,6 +51,19 @@ __git_prompt() {
     then
         local result="git "
 
+        local branch="$(git branch --show-current)"
+
+        result+="("
+
+        if [[ -z $branch ]]; then
+            result+="❌ not on branch"
+        else
+            [[ "$(git branch -r --contains "$branch")" == "" ]] && result+="⚠️ "
+            result+="$branch"
+        fi
+
+        result+=")"
+
         local -i untracked_count
         local -i staged_count
         local delimiter=" "
