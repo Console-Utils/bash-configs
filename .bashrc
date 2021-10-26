@@ -81,7 +81,7 @@ __git_prompt() {
     echo "$result"
 }
 
-function __print_pipeline_statuses() {
+__print_pipeline_statuses() {
     local statuses=("$@")
 
     [[ -z ${statuses[0]} ]] && return
@@ -92,6 +92,13 @@ function __print_pipeline_statuses() {
     done
 
     echo -n "]"
+}
+
+__simplify_pwd() {
+    local directory="$1"
+
+    directory="$(echo "$directory" | sed "s|^$HOME/Documents/mine|\\\\\$MINE_PATH|; s|^$HOME/Documents/work|\\\\\$WORK_PATH|; s|$HOME|~|")"
+    echo "$directory"
 }
 
 __prompt_setup() {
@@ -105,7 +112,7 @@ __prompt_setup() {
     declare statuses=("${PIPESTATUS[@]}")
     if [[ $color_prompt -eq "$TRUE" ]]
     then
-        PS1="🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]\w\[$RESET\] ➡️  \[$BOLD_FMAGENTA\]$(__print_pipeline_statuses ${statuses[@]})\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ "
+        PS1="🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]$(__simplify_pwd $PWD)\[$RESET\] ➡️  \[$BOLD_FMAGENTA\]$(__print_pipeline_statuses ${statuses[@]})\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ "
     else
         PS1="\u@\h:\w\:$(__git_prompt)\n\$ "
     fi'
