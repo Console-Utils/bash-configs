@@ -62,7 +62,21 @@ __git_prompt() {
             result+="$branch"
         fi
 
-        result+=")"
+        result+=" "
+        local commit_difference=($(git rev-list --left-right --count "origin/$branch...$branch" | tr '\t' '\n'))
+        
+        local -i commits_behind="${commit_difference[0]}"
+        local -i commits_ahead="${commit_difference[1]}"
+
+        local commit_difference_info=
+
+        (( commits_behind != 0 )) && commit_difference_info+="⬇️ $commits_behind"
+        (( commits_ahead != 0 )) && {
+            [[ -n $commit_difference_info ]] && commit_difference_info+=" "
+            commit_difference_info+="⬆️ $commits_ahead"
+        }
+
+        result+="$commit_difference_info)"
 
         local -i untracked_count
         local -i staged_count
