@@ -81,19 +81,34 @@ __git_prompt() {
     echo "$result"
 }
 
+function __print_pipeline_statuses() {
+    local statuses=("$@")
+
+    [[ -z ${statuses[0]} ]] && return
+    
+    echo -n "[${statuses[0]}"
+    for ((i=1; i < "${#statuses[@]}"; i++)); do
+        echo -n "|${statuses[i]}"
+    done
+
+    echo -n "]"
+}
+
 __prompt_setup() {
     case $TERM in
         xterm-color|*-256color)
             local -i color_prompt="$TRUE"
         ;;
     esac
-    
+
+    PROMPT_COMMAND='
+    declare statuses=("${PIPESTATUS[@]}")
     if [[ $color_prompt -eq "$TRUE" ]]
     then
-        PS1='🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]\w\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ '
+        PS1="🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]\w\[$RESET\] ➡️  \[$BOLD_FMAGENTA\]$(__print_pipeline_statuses ${statuses[@]})\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ "
     else
-        PS1='\u@\h:\w\:$(__git_prompt)\n\$ '
-    fi
+        PS1="\u@\h:\w\:$(__git_prompt)\n\$ "
+    fi'
 }
 
 __miscellaneous_setup() {
