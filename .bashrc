@@ -93,11 +93,11 @@ __git_prompt() {
         status_info+="❌untracked:$untracked_count"
     }
     (( staged_count > 0 )) && {
-        [[ -n $status_info ]] && git_info+=" "
+        [[ -n $status_info ]] && status_info+=" "
         status_info+="✅staged:$staged_count"
     }
 
-    [[ -n $status_info ]] && result+="[$git_info]"
+    [[ -n $status_info ]] && result+="[$status_info]"
 
     echo "$result"
 }
