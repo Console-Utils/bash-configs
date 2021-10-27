@@ -56,30 +56,37 @@ __git_prompt() {
 
     local branch
     branch="$(git branch --show-current)"
+    local -i remote_branch_exists="$TRUE"
 
     result+="("
 
     if [[ -z $branch ]]; then
         result+="❌ not on branch"
     else
-        [[ "$(git branch -r --contains "origin/$branch")" == "" ]] && result+="⚠️ "
+        [[ "$(git branch -r --contains "origin/$branch" 2> /dev/null)" == "" ]] && {
+            result+="⚠️ "
+            remote_branch_exists="$FALSE"
+        }
         result+="$branch"
     fi
 
-    readarray -d $'\t' -t commit_difference < <(echo -e "$(git rev-list --left-right --count "origin/main...main")\t")
-    
-    local -i commits_behind="${commit_difference[0]}"
-    local -i commits_ahead="${commit_difference[1]}"
+    (( remote_branch_exists == TRUE )) && {
+        readarray -d $'\t' -t commit_difference < <(echo -e "$(git rev-list --left-right --count "origin/$branch...$branch")\t")
+        
+        local -i commits_behind="${commit_difference[0]}"
+        local -i commits_ahead="${commit_difference[1]}"
 
-    local commit_difference_info=
+        local commit_difference_info=
 
-    (( commits_behind != 0 )) && commit_difference_info+="⬇️ $commits_behind"
-    (( commits_ahead != 0 )) && {
-        [[ -n $commit_difference_info ]] && commit_difference_info+=" "
-        commit_difference_info+="⬆️ $commits_ahead"
+        (( commits_behind != 0 )) && commit_difference_info+="⬇️ $commits_behind"
+        (( commits_ahead != 0 )) && {
+            [[ -n $commit_difference_info ]] && commit_difference_info+=" "
+            commit_difference_info+="⬆️ $commits_ahead"
+        }
+
+        [[ -n $commit_difference_info ]] && result+=" $commit_difference_info"
     }
 
-    [[ -n $commit_difference_info ]] && result+=" $commit_difference_info"
     result+=")"
 
     local -i untracked_count
