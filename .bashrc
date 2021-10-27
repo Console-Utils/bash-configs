@@ -47,63 +47,57 @@ __git_check_staged_changes() {
 }
 
 __git_prompt() {
-    if [[ -d .git ]]
-    then
-        local result="git "
+    [[ ! -d .git ]] && {
+        echo "[🔥no .git folder]"
+        exit
+    }
 
-        local branch="$(git branch --show-current)"
+    local result="git "
 
-        result+="("
+    local branch
+    branch="$(git branch --show-current)"
 
-        if [[ -z $branch ]]; then
-            result+="❌ not on branch"
-        else
-            [[ "$(git branch -r --contains "origin/$branch")" == "" ]] && result+="⚠️ "
-            result+="$branch"
-        fi
+    result+="("
 
-        local commit_difference=($(git rev-list --left-right --count "origin/$branch...$branch" | tr '\t' '\n'))
-        
-        local -i commits_behind="${commit_difference[0]}"
-        local -i commits_ahead="${commit_difference[1]}"
-
-        local commit_difference_info=
-
-        (( commits_behind != 0 )) && commit_difference_info+="⬇️ $commits_behind"
-        (( commits_ahead != 0 )) && {
-            [[ -n $commit_difference_info ]] && commit_difference_info+=" "
-            commit_difference_info+="⬆️ $commits_ahead"
-        }
-
-        [[ -n $commit_difference_info ]] && result+=" $commit_difference_info"
-        result+=")"
-
-        local -i untracked_count
-        local -i staged_count
-        local delimiter=" "
-
-        untracked_count="$(__git_check_untracked_changes)"
-        staged_count="$(__git_check_staged_changes)"
-        local -i status_not_empty="$FALSE"
-        local git_info=
-        
-        (( untracked_count > 0 )) && {
-            git_info+="❌untracked:$untracked_count"
-            status_not_empty="$TRUE"
-        }
-        (( staged_count > 0 )) && {
-            (( status_not_empty == TRUE )) && git_info+="$delimiter"
-            status_not_empty="$TRUE"
-            git_info+="✅staged:$staged_count"
-        }
-
-        (( status_not_empty == TRUE )) && {
-            git_info="[$git_info]"
-            result+="$git_info"
-        }
+    if [[ -z $branch ]]; then
+        result+="❌ not on branch"
     else
-        result="[🔥no .git folder]"
+        [[ "$(git branch -r --contains "origin/$branch")" == "" ]] && result+="⚠️ "
+        result+="$branch"
     fi
+
+    readarray -d $'\t' -t commit_difference < <(echo -e "$(git rev-list --left-right --count "origin/main...main")\t")
+    
+    local -i commits_behind="${commit_difference[0]}"
+    local -i commits_ahead="${commit_difference[1]}"
+
+    local commit_difference_info=
+
+    (( commits_behind != 0 )) && commit_difference_info+="⬇️ $commits_behind"
+    (( commits_ahead != 0 )) && {
+        [[ -n $commit_difference_info ]] && commit_difference_info+=" "
+        commit_difference_info+="⬆️ $commits_ahead"
+    }
+
+    [[ -n $commit_difference_info ]] && result+=" $commit_difference_info"
+    result+=")"
+
+    local -i untracked_count
+    local -i staged_count
+    untracked_count="$(__git_check_untracked_changes)"
+    staged_count="$(__git_check_staged_changes)"
+
+    local status_info=
+    
+    (( untracked_count > 0 )) && {
+        status_info+="❌untracked:$untracked_count"
+    }
+    (( staged_count > 0 )) && {
+        [[ -n $status_info ]] && git_info+=" "
+        status_info+="✅staged:$staged_count"
+    }
+
+    [[ -n $status_info ]] && result+="[$git_info]"
 
     echo "$result"
 }
@@ -123,7 +117,7 @@ __print_pipeline_statuses() {
 
 __simplify_pwd() {
     local directory="$1"
-
+    
     directory="$(echo "$directory" | sed "s|^$HOME/Documents/mine|\\\\\$MINE_PATH|; s|^$HOME/Documents/work|\\\\\$WORK_PATH|; s|$HOME|~|")"
     echo "$directory"
 }
@@ -137,6 +131,7 @@ __prompt_setup() {
 
     PROMPT_COMMAND='
     declare statuses=("${PIPESTATUS[@]}")
+
     if [[ $color_prompt -eq "$TRUE" ]]
     then
         PS1="🌿 \[$BOLD_FCYAN\]\u@\h\[$RESET\] ➡️  \[$BOLD_FBLUE\]$(__simplify_pwd $PWD)\[$RESET\] ➡️  \[$BOLD_FMAGENTA\]$(__print_pipeline_statuses ${statuses[@]})\[$RESET\] ➡️  \[$BOLD_FRED\]$(__git_prompt)\[$RESET\]🌿\n\$ "
