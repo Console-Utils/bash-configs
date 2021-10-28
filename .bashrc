@@ -19,6 +19,18 @@ export WORK_PATH="$HOME/Documents/work/"
 
 export GLOBIGNORE=".bashrc*:.bash_aliases*:.bash_wrappers*"
 
+__source_configs() {
+    declare dotfiles=("$HOME/.bash_aliases"
+        "$HOME/.bash_colors"
+        "/usr/share/bash-completion/bash_completion"
+        "/etc/bash_completion")
+
+    for f in "${dotfiles[@]}"
+    do
+        [[ -r $f ]] && . "$f"
+    done
+}
+
 __history_setup() {
     shopt -s histappend
 
@@ -151,16 +163,7 @@ __miscellaneous_setup() {
     shopt -s checkwinsize
 }
 
-declare dotfiles=("$HOME/.bash_aliases"
-    "$HOME/.bash_colors"
-    "/usr/share/bash-completion/bash_completion"
-    "/etc/bash_completion")
-
-for f in "${dotfiles[@]}"
-do
-    [[ -r $f ]] && . "$f"
-done
-
+__source_configs
 __history_setup
 __glob_setup
 __prompt_setup
