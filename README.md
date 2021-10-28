@@ -1,6 +1,6 @@
 # Bash configs
 
-[![Continuous Integration](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml/badge.svg)](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml)
+[![Continuous Integration](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml/badge.svg)](https://github.com/Console-Utils/bash-configs/actions/workflows/ci.yml) [![Reddit](https://img.shields.io/badge/Bash%20configs%20suggestions-r%2FBash-brightgreen)](https://www.reddit.com/r/bash/comments/qcsbzl/bash_configs_suggestions/)
 
 ## Description
 
