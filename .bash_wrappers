@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2155
+# shellcheck disable=SC2155,1090
+
+__source_configs() {
+  declare dotfiles=("$HOME/.bash_colors")
+
+  for f in "${dotfiles[@]}"
+  do
+      [[ -r $f ]] && . "$f"
+  done
+}
 
 # Recreates current repo by removing all files from current directory and cloning repo again.
 __git_repo_recreate() {
@@ -27,9 +36,4 @@ __git_repo_recreate() {
   return $SUCCESS
 }
 
-declare dotfiles=("$HOME/.bash_colors")
-
-for f in "${dotfiles[@]}"
-do
-    [[ -r $f ]] && . "$f"
-done
+__source_configs
