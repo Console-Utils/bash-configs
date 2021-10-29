@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+__test_complete()
+{
+  local STRING_OPERATORS=('='
+    '=='
+    '!=')
+
+  local NUMBER_OPERATORS=('-eq'
+    '-ne'
+    '-gt'
+    '-ls'
+    '-ge'
+    '-le')
+
+  local FILE_OPERATORS=('-ef'
+    '-nt'
+    '-ot'
+    '-b'
+    '-c'
+    '-d'
+    '-e'
+    '-f'
+    '-g'
+    '-G'
+    '-h'
+    '-k'
+    '-L'
+    '-O'
+    '-p'
+    '-r'
+    '-s'
+    '-S'
+    '-t'
+    '-u'
+    '-w'
+    '-x')
+
+  local current
+  local previous
+
+  current=${COMP_WORDS[COMP_CWORD]}
+  previous=${COMP_WORDS[COMP_CWORD-1]}
+
+  case ${COMP_CWORD} in
+    2)
+      case ${previous} in
+        \"*\"|\'*\')
+          COMPREPLY=($(compgen -W "${STRING_OPERATORS[*]}" -- ${current}))
+          ;;
+        ?(-+)+([[:digit:]]))
+          COMPREPLY=($(compgen -W "${NUMBER_OPERATORS[*]}" -- ${current}))
+          ;;
+        *)
+          COMPREPLY=($(compgen -W "${FILE_OPERATORS[*]}" -- ${current}))
+          ;;
+      esac
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+  esac
+}
+
+complete -F __test_complete test [[ [
