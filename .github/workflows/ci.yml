@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: lint
         run: |
-          shellcheck -x -s bash .bash_aliases .bashrc
+          shellcheck -x -s bash .bashrc .bash_aliases .bash_colors .bash_completions
   
   markdown-lint:
     runs-on: ubuntu-20.04
