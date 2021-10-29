@@ -2,7 +2,10 @@
 
 __test_complete()
 {
-  local STRING_OPERATORS=('='
+  local UNARY_STRING_OPERATORS=('-z'
+    '-n')
+  
+  local BINARY_STRING_OPERATORS=('='
     '=='
     '!=')
 
@@ -43,12 +46,18 @@ __test_complete()
   previous=${COMP_WORDS[COMP_CWORD-1]}
 
   case ${COMP_CWORD} in
+    1)
+      COMPREPLY=($(compgen -W "${UNARY_STRING_OPERATORS[*]}" -- ${current}))
+      ;;
     2)
       case ${previous} in
-        \"*\"|\'*\')
-          COMPREPLY=($(compgen -W "${STRING_OPERATORS[*]}" -- ${current}))
+        -z|-n)
+          COMPREPLY=()
           ;;
-        ?(-+)+([[:digit:]]))
+        \"*\"|\'*\')
+          COMPREPLY=($(compgen -W "${BINARY_STRING_OPERATORS[*]}" -- ${current}))
+          ;;
+        ?(-|+)+([[:digit:]]))
           COMPREPLY=($(compgen -W "${NUMBER_OPERATORS[*]}" -- ${current}))
           ;;
         *)
