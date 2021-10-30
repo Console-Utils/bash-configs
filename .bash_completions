@@ -47,7 +47,7 @@ __test_complete()
 
   case ${COMP_CWORD} in
     1)
-      COMPREPLY=($(compgen -W "${UNARY_STRING_OPERATORS[*]}" -- ${current}))
+      readarray -t COMPREPLY < <(compgen -W "${UNARY_STRING_OPERATORS[*]}" -- "${current}")
       ;;
     2)
       case ${previous} in
@@ -55,13 +55,13 @@ __test_complete()
           COMPREPLY=()
           ;;
         \"*\"|\'*\')
-          COMPREPLY=($(compgen -W "${BINARY_STRING_OPERATORS[*]}" -- ${current}))
+          readarray -t COMPREPLY < <(compgen -W "${BINARY_STRING_OPERATORS[*]}" -- "${current}")
           ;;
         ?(-|+)+([[:digit:]]))
-          COMPREPLY=($(compgen -W "${NUMBER_OPERATORS[*]}" -- ${current}))
+          readarray -t COMPREPLY < <(compgen -W "${NUMBER_OPERATORS[*]}" -- "${current}")
           ;;
         *)
-          COMPREPLY=($(compgen -W "${FILE_OPERATORS[*]}" -- ${current}))
+          readarray -t COMPREPLY < <(compgen -W "${FILE_OPERATORS[*]}" -- "${current}")
           ;;
       esac
       ;;
