@@ -152,6 +152,7 @@ __miscellaneous_setup() {
 
 declare dotfiles=("$HOME/.bash_aliases"
     "$HOME/.bash_colors"
+    "$HOME/.bash_completions"
     "/usr/share/bash-completion/bash_completion"
     "/etc/bash_completion")
 
