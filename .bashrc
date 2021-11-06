@@ -16,7 +16,7 @@ declare -i FALSE=1
 export MINE_PATH="$HOME/Documents/mine/"
 export WORK_PATH="$HOME/Documents/work/"
 
-export GLOBIGNORE=".bashrc*:.bash_aliases*:.bash_wrappers*"
+export GLOBIGNORE=".bashrc?(.old):.bash_aliases?(.old):.bash_completions?(.old):.bash_colors?(.old):.bash_wrappers?(.old)"
 
 __history_setup() {
     shopt -s histappend
@@ -151,8 +151,8 @@ __miscellaneous_setup() {
 }
 
 declare dotfiles=("$HOME/.bash_aliases"
-    "$HOME/.bash_colors"
     "$HOME/.bash_completions"
+    "$HOME/.bash_colors"
     "/usr/share/bash-completion/bash_completion"
     "/etc/bash_completion")
 
