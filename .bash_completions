@@ -59,7 +59,7 @@ __test_complete()
         ?(-|+)+([[:digit:]]))
           readarray -t COMPREPLY < <(compgen -W "${NUMBER_OPERATORS[*]}" -- "${current}")
           ;;
-        \"\$*\"|\'\$*\'|\$*)
+        \"\$+(?)\"|\'\$+(?)\'|\$+(?))
           readarray -t COMPREPLY < <(compgen -W "${BINARY_STRING_OPERATORS[*]} ${NUMBER_OPERATORS[*]} ${FILE_OPERATORS[*]}" -- "${current}")
           ;;
         \"*\"|\'*\')
