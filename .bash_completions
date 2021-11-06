@@ -54,11 +54,14 @@ __test_complete()
         -z|-n)
           COMPREPLY=()
           ;;
-        \"*\"|\'*\')
-          readarray -t COMPREPLY < <(compgen -W "${BINARY_STRING_OPERATORS[*]}" -- "${current}")
-          ;;
         ?(-|+)+([[:digit:]]))
           readarray -t COMPREPLY < <(compgen -W "${NUMBER_OPERATORS[*]}" -- "${current}")
+          ;;
+        \"\$*\"|\'\$*\'|\$*)
+          readarray -t COMPREPLY < <(compgen -W "${BINARY_STRING_OPERATORS[*]} ${NUMBER_OPERATORS[*]} ${FILE_OPERATORS[*]}" -- "${current}")
+          ;;
+        \"*\"|\'*\')
+          readarray -t COMPREPLY < <(compgen -W "${BINARY_STRING_OPERATORS[*]}" -- "${current}")
           ;;
         *)
           readarray -t COMPREPLY < <(compgen -W "${FILE_OPERATORS[*]}" -- "${current}")
