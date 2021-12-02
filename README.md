@@ -12,4 +12,4 @@ Modify corresponding files in your home directory or use `update-configs.sh` (on
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/42812113/138418468-8dc5ae4d-0c7c-43fd-9107-0f547c447af5.png)
+![image](https://user-images.githubusercontent.com/42812113/144447386-28960457-d011-43fe-93d6-b24a060177f7.png)

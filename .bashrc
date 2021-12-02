@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2034,SC1090
+# shellcheck disable=SC2034,SC1090,SC1094
 
 case $- in
     *i*)
@@ -9,6 +9,8 @@ case $- in
         return
     ;;
 esac
+
+. "$HOME/.local/share/blesh/ble.sh" --rcfile "$HOME/.blerc"
 
 declare -i TRUE=0
 declare -i FALSE=1
@@ -165,3 +167,6 @@ __history_setup
 __glob_setup
 __prompt_setup
 __miscellaneous_setup
+
+[[ ${BLE_VERSION-} ]] && ble-attach
+
