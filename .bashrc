@@ -167,3 +167,6 @@ __history_setup
 __glob_setup
 __prompt_setup
 __miscellaneous_setup
+
+[[ ${BLE_VERSION-} ]] && ble-attach
+
