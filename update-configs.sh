@@ -20,7 +20,7 @@ create_backup() {
   [[ -f $new_name ]] &&
     echo -e "⚠️ $BOLD_FBLACK'$(basename "$new_name")'$RESET backup file already exists in the $BOLD_FBLACK'$directory'$RESET directory and will be overridden." >&2
 
-  cp -fT "$old_name" "$new_name"
+  cp --force --no-target-directory "$old_name" "$new_name"
 }
 
 declare dotfiles=("$HOME/.bash_colors")
@@ -30,9 +30,12 @@ do
     [[ -r $f ]] && . "$f"
 done
 
-dotfiles=(".bashrc"
+dotfiles=(".bash_profile"
+  ".bash_logout"
+  ".bashrc"
   ".bash_aliases"
-  ".bash_wrappers")
+  ".bash_wrappers"
+  ".blerc")
 
 for f in "${dotfiles[@]}"
 do
@@ -40,16 +43,16 @@ do
 done
 
 repo_url="https://github.com/Console-Utils/bash-configs.git"
-tmp_folder_name="/tmp/$(date +'%m/%d/%Y')"
+tmp_folder_name="$(mktemp --directory)"
 
 echo "⌛Cloning started..."
 git clone "$repo_url" "$tmp_folder_name" || exit
-for f in "$tmp_folder_name/."bash*
+for f in "$tmp_folder_name/."bash* "$tmp_folder_name/.blerc"
 do
   name="$(basename "$f")"
-  cp -f "$f" "$HOME/$name"
+  cp --force "$f" "$HOME/$name"
   echo -e "✅$BOLD_FBLACK'$name'$RESET file updated according to $BOLD_FBLACK'$repo_url'$RESET repo."
 done
 
-rm -rf "$tmp_folder_name"
+rm --force --recursive "$tmp_folder_name"
 exit $SUCCESS
